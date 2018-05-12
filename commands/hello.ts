@@ -1,8 +1,7 @@
-import { Client } from "discord.js"
-import { Message } from "discord.js"
+import { Client, Message } from "discord.js"
 
 // ~Hello Command
-exports.run = (client: Client, message: Message, args: any[]) => {
+exports.run = (client: Client, message: Message, args: string[]) => {
     message.channel.send("Annyeong Haseyo! IU-imnida~").catch(console.error);
 }
 
