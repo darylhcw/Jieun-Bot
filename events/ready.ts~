@@ -1,4 +1,0 @@
-// ready event
-exports.run = (client) => {
-    console.log("eksdee");
-}
