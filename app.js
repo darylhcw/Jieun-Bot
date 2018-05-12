@@ -1,13 +1,14 @@
 "use strict";
-// Required/imported stuff
-var Discord = require("discord.js");
-var client = new Discord.Client();
-var settings = require("./settings.json");
-client.on("ready", function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+//  Getting Discord and the Client
+const Discord = require("discord.js");
+const client = new Discord.Client();
+const settings = require("./settings.json");
+client.on("ready", () => {
     console.log("I'm online :)");
 });
-client.on("message", function (message) {
-    if (message.author === client.user)
+client.on("message", (message) => {
+    if (message.author.bot)
         return;
     if (message.content.startsWith("ping")) {
         message.channel.send("pong");

@@ -1,6 +1,9 @@
 
-// Required/imported stuff
+// Type Definitions
+import { Message } from "discord.js";
 
+
+//  Getting Discord and the Client
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const settings = require("./settings.json");
@@ -10,7 +13,7 @@ client.on("ready", () => {
 })
 
 client.on("message", (message: Message) => {
-    if (message.author === client.user) return;
+    if (message.author.bot) return;
     if (message.content.startsWith("ping")) {
         message.channel.send("pong");
     }
