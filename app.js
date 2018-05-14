@@ -7,7 +7,9 @@ const PRIVATECONFIG = require("./privateConfig.json");
 const CLIENT = new DISCORD.Client();
 // This is meant to hold a bunch of Server objects (see Server.js/ts)
 const SERVERS = {};
-// Loop through /events/ folder and attaches each event file to the appropriate event
+/*
+ * Loop through /events/ folder and attaches each event file to the appropriate event
+ */
 FILESYS.readdir("./events/", (err, files) => {
     if (err)
         return console.error(err);
@@ -19,7 +21,9 @@ FILESYS.readdir("./events/", (err, files) => {
         }
     });
 });
-// Simple Message Handler
+/*
+ * Simple Message Handler
+ */
 CLIENT.on("message", (message) => {
     if (message.author.bot)
         return;

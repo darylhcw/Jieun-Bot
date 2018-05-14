@@ -1,7 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
-// ~Join Command
+/*
+ * ~Join Command
+ */
 exports.run = (client, message, args) => {
     if (args.length > 1) {
         message.reply("Please only enter one voice channel. It shouldn't have spaces!.");

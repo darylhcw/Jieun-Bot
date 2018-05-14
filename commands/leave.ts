@@ -1,7 +1,9 @@
 
 import { Client, Message, Collection } from "discord.js";
 
-// ~Leave Command
+/*
+ * ~Leave Command
+ */
 exports.run = (client: Client, message: Message, args: string[]) => {
 
     if (args.length > 0) return;

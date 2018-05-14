@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// ~Leave Command
+/*
+ * ~Leave Command
+ */
 exports.run = (client, message, args) => {
     if (args.length > 0)
         return;

@@ -12,7 +12,10 @@ const CLIENT: Client = new DISCORD.Client();
 // This is meant to hold a bunch of Server objects (see Server.js/ts)
 const SERVERS = {};
 
-// Loop through /events/ folder and attaches each event file to the appropriate event
+
+/*
+ * Loop through /events/ folder and attaches each event file to the appropriate event
+ */
 FILESYS.readdir("./events/", (err: Error, files: string[]) => {
     if (err) return console.error(err);
     files.forEach(file => {
@@ -25,7 +28,9 @@ FILESYS.readdir("./events/", (err: Error, files: string[]) => {
 });
 
 
-// Simple Message Handler
+/*
+ * Simple Message Handler
+ */
 CLIENT.on("message", (message: Message) => {
     if (message.author.bot) return;
     if (message.content[0] != PRIVATECONFIG.prefix) return;

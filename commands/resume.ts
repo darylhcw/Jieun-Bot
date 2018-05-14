@@ -13,6 +13,7 @@ exports.run = (client: Client, message: Message, args: string[]) => {
     if (server.playing) return;
 
     let vc = server.voiceCon;
+    if (!vc) return;
     if (vc.dispatcher.paused) {
         vc.dispatcher.resume();
         server.setPlaying(true);

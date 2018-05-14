@@ -36,7 +36,7 @@ exports.run = (client: Client, message: Message, args: string[]) => {
         // If already playing, let it do its thing
         if (server.playing) return;
 
-        // If not, see if there is a need to assign VC or just resume.
+        // If not, see if there is a need to assign VC
         if (!server.voiceCon) {
             let voiceConnection = message.guild.voiceConnection;
             server.voiceCon = voiceConnection;

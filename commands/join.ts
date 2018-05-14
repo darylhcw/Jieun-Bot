@@ -1,7 +1,9 @@
 
 import { Client, Message, VoiceChannel } from "discord.js";
 
-// ~Join Command
+/*
+ * ~Join Command
+ */
 exports.run = (client: Client, message: Message, args: string[]) => {
 
     if (args.length > 1) {
