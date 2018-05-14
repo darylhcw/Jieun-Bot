@@ -1,45 +1,43 @@
 
 // Type Definitions
-import { Message } from "discord.js";
-import { Client } from "discord.js";
-
+import { Message, Client } from "discord.js";
 
 // Required modules + Json
-const Discord = require("discord.js");
-const fileSystem = require("fs");
+const DISCORD = require("discord.js");
+const FILESYS = require("fs");
 
-const privateConfig = require("./privateConfig.json");
-const client: Client = new Discord.Client();
+const PRIVATECONFIG = require("./privateConfig.json");
+const CLIENT: Client = new DISCORD.Client();
 
-// Server Object for Player
-const servers = {};
+// This is meant to hold a bunch of Server objects (see Server.js/ts)
+const SERVERS = {};
 
 // Loop through /events/ folder and attaches each event file to the appropriate event
-fileSystem.readdir("./events/", (err: Error, files: string[]) => {
+FILESYS.readdir("./events/", (err: Error, files: string[]) => {
     if (err) return console.error(err);
     files.forEach(file => {
         if (file.endsWith("js")) {
             let eventFunction = require(`./events/${file}`);
             let eventName = file.split(".")[0];
-            client.on(eventName, (...args) => eventFunction.run(client, ...args));
+            CLIENT.on(eventName, (...args: string[]) => eventFunction.run(CLIENT, ...args));
         }
     });
 });
 
 
 // Simple Message Handler
-client.on("message", (message: Message) => {
+CLIENT.on("message", (message: Message) => {
     if (message.author.bot) return;
-    if (message.content[0] != privateConfig.prefix) return;
+    if (message.content[0] != PRIVATECONFIG.prefix) return;
 
     // Getting args for the command
-    const args: any[] = message.content.slice(privateConfig.prefix.length).trim().split(/ +/g);
+    const args: any[] = message.content.slice(PRIVATECONFIG.prefix.length).trim().split(/ +/g);
     const command: string = args.shift().toLowerCase();
 
     // Depending on the command, run the matching command file with args
     try {
         let commandFile = require(`./commands/${command}.js`);
-        commandFile.run(client, message, args);
+        commandFile.run(CLIENT, message, args);
     } catch (err) {
         console.error(err);
     }
@@ -47,8 +45,9 @@ client.on("message", (message: Message) => {
 
 
 // Login to Discord using the bot's token
-client.login(privateConfig.token)
+CLIENT.login(PRIVATECONFIG.token)
 
 
-// Export server
-exports = servers;
+// Export servers list
+exports = SERVERS;
+

@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const servers_js_1 = require("../servers.js");
+const streamYT_js_1 = require(".././streamYT.js");
+const YTDL = require("ytdl-core");
 // Queue DS
-var musicQueue = require(".././musicQueue.js");
-var servers = require("../app.js");
+const SERVERS = require("../app.js");
 // ~Play Command
-exports.run = function (client, message, args) {
-    console.log(servers);
+exports.run = (client, message, args) => {
     if (!args[0]) {
         message.reply("Sorry, you have to tell me what you want to play!");
         return;
@@ -15,8 +16,16 @@ exports.run = function (client, message, args) {
             + " -- Use ~Join <channel>");
         return;
     }
-    if (!servers[message.guild.id]) {
-        var newQueue = new musicQueue();
-        servers[message.guild.id] = newQueue;
+    // Create new server obj if non-existant
+    if (!SERVERS[message.guild.id]) {
+        let newServer = new servers_js_1.Server();
+        SERVERS[message.guild.id] = newServer;
+    }
+    // Server already has its "Server" object.
+    let server = SERVERS[message.guild.id];
+    if (server.queue) {
+        server.queue.push(args[0]);
+        let voiceConnection = message.guild.voiceConnection;
+        streamYT_js_1.youtubePlay(voiceConnection, message);
     }
 };

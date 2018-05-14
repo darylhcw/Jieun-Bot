@@ -19,7 +19,7 @@ class MusicQueue {
         this.tail = 0;
     }
 
-    empty() {
+    isEmpty() {
         return (this.head == this.tail)
     }
 
@@ -29,13 +29,14 @@ class MusicQueue {
     }
 
     pop(): any | null {
-        if (this.empty()) return;
+        if (this.isEmpty()) return;
         let thing = this.queue[this.head];
         this.queue[this.head] = null;
         this.head += 1
+        return thing;
     }
 
 }
 
 // export
-module.exports = MusicQueue;
+export { MusicQueue };

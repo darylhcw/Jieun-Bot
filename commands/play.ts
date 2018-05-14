@@ -1,13 +1,15 @@
-import { Client, Message } from "discord.js"
+import { Client, Message } from "discord.js";
+import { MusicQueue } from "../musicQueue.js";
+import { Server } from "../servers.js";
+import { youtubePlay } from ".././streamYT.js";
+
+const YTDL = require("ytdl-core");
 
 // Queue DS
-const musicQueue = require(".././musicQueue.js");
-const servers = require("../app.js");
+const SERVERS = require("../app.js");
 
 // ~Play Command
 exports.run = (client: Client, message: Message, args: string[]) => {
-
-    console.log(servers);
 
     if (!args[0]) {
         message.reply("Sorry, you have to tell me what you want to play!");
@@ -20,9 +22,17 @@ exports.run = (client: Client, message: Message, args: string[]) => {
         return;
     }
 
-    if (!servers[message.guild.id]) {
-        let newQueue = new musicQueue();
-        servers[message.guild.id] = newQueue;
+    // Create new server obj if non-existant
+    if (!SERVERS[message.guild.id]) {
+        let newServer = new Server();
+        SERVERS[message.guild.id] = newServer;
+    }
+
+    // Server already has its "Server" object.
+    let server: Server = SERVERS[message.guild.id];
+    if (server.queue) {
+        server.queue.push(args[0]);
+        let voiceConnection = message.guild.voiceConnection;
+        youtubePlay(voiceConnection, message);
     }
 }
-
