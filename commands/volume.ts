@@ -15,6 +15,8 @@ exports.run = (client: Client, message: Message, args: string[]) => {
     let vc = server.voiceCon;
     if (!vc) return;
 
+    // Instead of 0.00 to 2,
+    // Show users 0 to 100, which makes more sense.
     const vol: number = vc.dispatcher.volume
     var displayedVol: number = vol * 100 / 2
 
@@ -29,7 +31,7 @@ exports.run = (client: Client, message: Message, args: string[]) => {
     }
 
     var userVol: number = Number(args[0]);
-    if (!userVol || userVol < 1 || userVol > 100) {
+    if (!userVol || userVol < 0 || userVol > 100) {
         message.reply("Hey, please give me a number from 1- 100!");
         return;
     }
