@@ -3,23 +3,32 @@
  *  Use YTDL-Core to stream yt videos.
  *  - This file should contain all YTDL-core functions. 
  */
-import { Message, VoiceConnection } from "discord.js";
+import { VoiceConnection } from "discord.js";
 import { Server } from "./servers.js";
 
 const YTDL = require("ytdl-core");
 const SERVERS = require("./app.js");
 
+const streamOptions = { seek: 0, volume: 1 };
 
-// Dls and plays a yt vid (AUDIO only)
-function youtubePlay(voiceCon: VoiceConnection, message: Message) {
-    let server: Server = SERVERS[message.guild.id];
-    voiceCon.playStream(YTDL(server.queue.pop(), { filter: "audioonly" }));
+/*
+ * Dls and plays a yt vid (AUDIO only)
+ */
+function youtubeStartPlay(server: Server) {
+
+    if (server.queue.isEmpty()) {
+        server.playing = false;
+        return;
+    }
+
+    let stream = YTDL(server.queue.pop(), { filter: "audioonly" });
+    let vc = server.voiceCon;
+
+    const dispatcher = vc!.playStream(stream, streamOptions);
+    dispatcher.on("end", () => youtubeStartPlay(server));
+    server.setPlaying(true);
 };
 
 
-//     let server: Server = SERVERS[message.guild.id];
-//    const streamOptions = { seek: 0, volume: 1 };
-//    const stream = YTDL(server.queue.pop(), { filter: "audioonly" });
-//    const dispatcher = voiceCon.playStream(stream, streamOptions);
-
-export { youtubePlay };
+// exports
+export { youtubeStartPlay };

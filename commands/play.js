@@ -25,7 +25,14 @@ exports.run = (client, message, args) => {
     let server = SERVERS[message.guild.id];
     if (server.queue) {
         server.queue.push(args[0]);
-        let voiceConnection = message.guild.voiceConnection;
-        streamYT_js_1.youtubePlay(voiceConnection, message);
+        // If already playing, let it do its thing
+        if (server.playing)
+            return;
+        // If not, see if there is a need to assign VC or just resume.
+        if (!server.voiceCon) {
+            let voiceConnection = message.guild.voiceConnection;
+            server.voiceCon = voiceConnection;
+            streamYT_js_1.youtubeStartPlay(server);
+        }
     }
 };

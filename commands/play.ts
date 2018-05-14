@@ -1,7 +1,7 @@
 import { Client, Message } from "discord.js";
 import { MusicQueue } from "../musicQueue.js";
 import { Server } from "../servers.js";
-import { youtubePlay } from ".././streamYT.js";
+import { youtubeStartPlay } from ".././streamYT.js";
 
 const YTDL = require("ytdl-core");
 
@@ -32,7 +32,15 @@ exports.run = (client: Client, message: Message, args: string[]) => {
     let server: Server = SERVERS[message.guild.id];
     if (server.queue) {
         server.queue.push(args[0]);
-        let voiceConnection = message.guild.voiceConnection;
-        youtubePlay(voiceConnection, message);
+
+        // If already playing, let it do its thing
+        if (server.playing) return;
+
+        // If not, see if there is a need to assign VC or just resume.
+        if (!server.voiceCon) {
+            let voiceConnection = message.guild.voiceConnection;
+            server.voiceCon = voiceConnection;
+            youtubeStartPlay(server);
+        }
     }
 }
